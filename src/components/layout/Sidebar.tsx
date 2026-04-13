@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Home,
@@ -12,14 +12,18 @@ import {
   BarChart2,
   Activity,
   Plus,
-  Building2,
   Sun,
   Moon,
+  LayoutDashboard,
+  ShieldCheck,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import PostModal from "@/components/community/PostModal";
 import { useTheme } from "@/components/ThemeProvider";
+import { auth, db } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, onSnapshot } from "firebase/firestore";
 
 interface SidebarProps {
   className?: string;
@@ -28,9 +32,38 @@ interface SidebarProps {
 export default function Sidebar({ className }: SidebarProps) {
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    let unsubscribeSnapshot: () => void;
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        unsubscribeSnapshot = onSnapshot(doc(db, "users", user.uid), (docSnap) => {
+          if (docSnap.exists()) {
+            setRole(docSnap.data().role || "student");
+          } else {
+            setRole("student");
+          }
+        });
+      } else {
+        setRole(null);
+        if (unsubscribeSnapshot) {
+          unsubscribeSnapshot();
+        }
+      }
+    });
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeSnapshot) {
+        unsubscribeSnapshot();
+      }
+    };
+  }, []);
 
   const navItems = [
     { name: "Home", path: "/", icon: Home },
+    ...(role === "teacher" ? [{ name: "Teacher Dashboard", path: "/teacher-dashboard", icon: LayoutDashboard }] : []),
+    ...(role === "super_admin" ? [{ name: "Admin Dashboard", path: "/admin-dashboard", icon: ShieldCheck }] : []),
     {
       name: "Internships",
       path: "/opportunities?type=internships",
