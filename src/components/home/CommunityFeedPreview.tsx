@@ -9,11 +9,15 @@ export default function CommunityFeedPreview() {
   const navigate = useNavigate();
 
   useEffect(() => {
+<<<<<<< HEAD
     import("@/lib/api").then(({ fetchCommunity }) => {
       fetchCommunity()
         .then(setPosts)
         .catch(console.error);
     });
+=======
+    getCommunityPosts().then(setPosts).catch(console.error);
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
   }, []);
 
   return (

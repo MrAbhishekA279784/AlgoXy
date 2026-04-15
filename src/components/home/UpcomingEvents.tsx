@@ -17,6 +17,7 @@ export default function UpcomingEvents() {
     phone: ""
   });
 
+<<<<<<< HEAD
   const [events, setEvents] = useState<any[]>([]);
 
   useEffect(() => {
@@ -26,6 +27,34 @@ export default function UpcomingEvents() {
         .catch(err => console.error("Error fetching events:", err));
     });
   }, []);
+=======
+  const events = [
+    {
+      id: 1,
+      title: "CodeStorm 2026",
+      subtitle: "National Level Hackathon",
+      date: "20 - 22 Apr 2026",
+      location: "Online",
+      icon: "💻",
+    },
+    {
+      id: 2,
+      title: "AI Workshop",
+      subtitle: "By Google Developer Group",
+      date: "25 Apr 2026",
+      location: "Auditorium",
+      icon: "🤖",
+    },
+    {
+      id: 3,
+      title: "Tech Talk",
+      subtitle: "Career in Data Science",
+      date: "30 Apr 2026",
+      location: "Seminar Hall",
+      icon: "📊",
+    },
+  ];
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
 
   const handleOpenModal = async (event: any) => {
     setSelectedEvent(event);

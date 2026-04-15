@@ -29,6 +29,7 @@ export default function Opportunities() {
     isInternshipPage ? "Internships" : isJobsPage ? "Full-time" : "All"
   );
   const [jobs, setJobs] = useState<any[]>([]);
+<<<<<<< HEAD
 
   // Sync activeFilter when URL search params change (e.g. sidebar navigation)
   useEffect(() => {
@@ -40,6 +41,8 @@ export default function Opportunities() {
       setActiveFilter("All");
     }
   }, [typeParam]);
+=======
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
   const [userSkills, setUserSkills] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [applying, setApplying] = useState<Record<string, boolean>>({});

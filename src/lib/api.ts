@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 export async function fetchOpportunities(type?: string) {
@@ -5,11 +6,19 @@ export async function fetchOpportunities(type?: string) {
     type && type !== "All"
       ? `${API_BASE}/api/opportunities?type=${type}`
       : `${API_BASE}/api/opportunities`;
+=======
+export async function fetchOpportunities(type?: string) {
+  const url =
+    type && type !== "All"
+      ? `/api/opportunities?type=${type}`
+      : "/api/opportunities";
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch opportunities");
   return res.json();
 }
 
+<<<<<<< HEAD
 export async function fetchEvents() {
   const res = await fetch(`${API_BASE}/api/events`);
   if (!res.ok) throw new Error("Failed to fetch events");
@@ -30,6 +39,10 @@ export async function fetchCommunity() {
 
 export async function callAI(type: string, payload: any) {
   const res = await fetch(`${API_BASE}/api/ai`, {
+=======
+export async function callAI(type: string, payload: any) {
+  const res = await fetch("/api/ai", {
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -63,7 +76,11 @@ export async function fetchAIJobSuggestions(uid: string, skills: string[], branc
 }
 
 export async function fetchLeaderboard(filter?: string) {
+<<<<<<< HEAD
   const url = filter ? `${API_BASE}/api/leaderboard?filter=${encodeURIComponent(filter)}` : `${API_BASE}/api/leaderboard`;
+=======
+  const url = filter ? `/api/leaderboard?filter=${encodeURIComponent(filter)}` : "/api/leaderboard";
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch leaderboard");
   return res.json();

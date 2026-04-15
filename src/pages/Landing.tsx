@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useState, useEffect, FormEvent } from "react";
 import { signInWithGoogle, signInWithEmail, handleGoogleRedirectResult } from "@/lib/firebase";
+=======
+import { useState, FormEvent } from "react";
+import { signInWithGoogle, signInWithEmail } from "@/lib/firebase";
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
 import { Sparkles, ArrowRight, Building2, X, Mail } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -10,11 +15,14 @@ export default function Landing() {
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+<<<<<<< HEAD
 
   // Handle redirect result on mount (for when popup was blocked and redirect was used)
   useEffect(() => {
     handleGoogleRedirectResult();
   }, []);
+=======
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
   
   const [formData, setFormData] = useState({
     company_name: "",
@@ -83,6 +91,7 @@ export default function Landing() {
       
       <div className="flex flex-col items-center gap-4">
         <button
+<<<<<<< HEAD
           onClick={async () => {
             setIsLoggingIn(true);
             try {
@@ -98,6 +107,13 @@ export default function Landing() {
         >
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-6 h-6 bg-white rounded-full p-0.5" />
           {isLoggingIn ? "Signing in..." : "Login with Google"}
+=======
+          onClick={signInWithGoogle}
+          className="group relative flex items-center gap-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 px-8 py-4 rounded-2xl font-bold text-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl shadow-slate-200 dark:shadow-none w-full justify-center"
+        >
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-6 h-6 bg-white rounded-full p-0.5" />
+          Login with Google
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
 

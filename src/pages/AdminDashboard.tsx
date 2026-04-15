@@ -27,6 +27,7 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     setLoading(true);
     try {
+<<<<<<< HEAD
       // Parallel fetch all collections for speed
       const [usersSnap, communitySnap, jobsSnap, clubsSnap, eventsSnap, hrReqSnap] = await Promise.all([
         getDocs(collection(db, "users")),
@@ -40,6 +41,12 @@ export default function AdminDashboard() {
       const users = usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
       const jobs = jobsSnap.docs.map(doc => doc.data() as any);
 
+=======
+      // Fetch users
+      const usersSnap = await getDocs(collection(db, "users"));
+      const users = usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
+      
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
       const totalUsers = users.length;
       const totalStudents = users.filter(u => u.role === "student" || !u.role).length;
       const totalTeachers = users.filter(u => u.role === "teacher").length;
@@ -74,6 +81,7 @@ export default function AdminDashboard() {
 
       setTopStudents(enrichedStudents.slice(0, 4));
 
+<<<<<<< HEAD
       // HR Requests (pending only)
       const allHrReqs = hrReqSnap.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
       setHrRequests(allHrReqs.filter(req => req.status === "pending"));
@@ -90,11 +98,39 @@ export default function AdminDashboard() {
         internships: jobs.filter(j => j.type === "Internship").length,
         clubs: clubsSnap.size,
         events: eventsSnap.size
+=======
+      // Fetch HR Requests
+      const hrReqSnap = await getDocs(collection(db, "hr_requests"));
+      const allHrReqs = hrReqSnap.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
+      setHrRequests(allHrReqs.filter(req => req.status === "pending"));
+
+      // Fetch other stats (mocked counts if collections don't exist yet)
+      const communitySnap = await getDocs(collection(db, "community_posts"));
+      const jobsSnap = await getDocs(collection(db, "jobs"));
+      const jobs = jobsSnap.docs.map(doc => doc.data() as any);
+      const clubsSnap = await getDocs(collection(db, "clubs"));
+      const eventsSnap = await getDocs(collection(db, "events"));
+
+      setStats({
+        totalUsers: totalUsers || 2200,
+        totalStudents: totalStudents || 2000,
+        totalTeachers: totalTeachers || 10,
+        hrAccounts: hrAccounts || 15,
+        hrPostings: jobs.length || 15,
+        communityPosts: communitySnap.size || 1500,
+        jobPostings: jobs.filter(j => j.type === "Full-time").length || 100,
+        internships: jobs.filter(j => j.type === "Internship").length || 75,
+        clubs: clubsSnap.size || 75,
+        events: eventsSnap.size || 25
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
       });
 
     } catch (error) {
       console.error("Error fetching admin data:", error);
+<<<<<<< HEAD
       toast.error("Failed to load dashboard data. Check Firestore permissions.");
+=======
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
     } finally {
       setLoading(false);
     }
