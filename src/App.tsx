@@ -13,7 +13,10 @@ import MockInterviews from "./pages/MockInterviews";
 import Leaderboard from "./pages/Leaderboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+<<<<<<< HEAD
 import CareerGuidance from "./pages/CareerGuidance";
+=======
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 import { useEffect, useState } from "react";
 import { auth, db } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -79,7 +82,10 @@ export default function App() {
         <Route path="competitions" element={<Competitions />} />
         <Route path="mock-interviews" element={<MockInterviews />} />
         <Route path="leaderboard" element={<Leaderboard />} />
+<<<<<<< HEAD
         <Route path="career-guidance" element={<CareerGuidance />} />
+=======
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
         <Route path="teacher-dashboard" element={
           role === "teacher" ? <TeacherDashboard /> : <Navigate to="/" replace />
         } />

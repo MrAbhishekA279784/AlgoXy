@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Trophy, Star, Clock, ArrowRight, ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -128,6 +129,13 @@ export default function Competitions() {
           </button>
         </div>
       </div>
+=======
+export default function Competitions() {
+  return (
+    <div className="p-8 transition-colors duration-300">
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Competitions</h1>
+      <p className="text-slate-600 dark:text-slate-400">Participate in ongoing competitions.</p>
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
     </div>
   );
 }

@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 import { useState, useEffect, FormEvent } from "react";
+=======
+<<<<<<< HEAD
+import { useState, useEffect, FormEvent } from "react";
+=======
+import { useState, FormEvent } from "react";
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 import { joinClub } from "@/lib/db";
 import { auth } from "@/lib/firebase";
 import { toast } from "sonner";
@@ -14,6 +22,10 @@ export default function ActiveClubs() {
     skills: ""
   });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
   const [clubs, setClubs] = useState<any[]>([]);
 
   useEffect(() => {
@@ -23,6 +35,34 @@ export default function ActiveClubs() {
         .catch(err => console.error("Error fetching clubs:", err));
     });
   }, []);
+<<<<<<< HEAD
+=======
+=======
+  const clubs = [
+    {
+      id: 1,
+      name: "Coding Club",
+      members: "1200 Members",
+      description: "Building. Learning. Growing.",
+      icon: "💻",
+    },
+    {
+      id: 2,
+      name: "Robotics Club",
+      members: "850 Members",
+      description: "Innovate. Build. Automate.",
+      icon: "⚙️",
+    },
+    {
+      id: 3,
+      name: "AI Club",
+      members: "950 Members",
+      description: "Explore. Learn. Implement.",
+      icon: "🧠",
+    },
+  ];
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 
   const handleOpenModal = async (club: any) => {
     setSelectedClub(club);

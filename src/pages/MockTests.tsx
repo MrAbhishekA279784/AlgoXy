@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, Info, FileText, PlayCircle, Mic, Square, CheckCircle2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+<<<<<<< HEAD
 import { generateMockTest } from "@/lib/api";
+=======
+import { generateAITest } from "@/lib/api";
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 import { saveTestAttempt, getUserActivity } from "@/lib/db";
 import { toast } from "sonner";
 
@@ -95,7 +99,11 @@ export default function MockTests() {
   const handleStartTest = async (card: any) => {
     setStartingTest(card);
     try {
+<<<<<<< HEAD
       const res = await generateMockTest(category, card.company, card.role);
+=======
+      const res = await generateAITest(category, card.company, card.role);
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       setActiveTest({ ...card, questions: res.questions });
       setCurrentQuestionIndex(0);
       setAnswers({});

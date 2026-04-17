@@ -1,5 +1,13 @@
 import { initializeApp } from 'firebase/app';
+<<<<<<< HEAD
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+=======
+<<<<<<< HEAD
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+=======
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
@@ -7,6 +15,10 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 const googleProvider = new GoogleAuthProvider();
 
 // Helper to create/update user document after sign-in
@@ -40,6 +52,22 @@ async function ensureUserDocument(user: import('firebase/auth').User) {
     // Ensure role exists for existing users
     const data = userSnap.data();
     if (!data.role) {
+<<<<<<< HEAD
+=======
+=======
+export const signInWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    
+    // Check if user document exists
+    const userRef = doc(db, 'users', user.uid);
+    const userSnap = await getDoc(userRef);
+    
+    if (!userSnap.exists()) {
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       let role = "student";
       const email = user.email || "";
       if (email === "admin@tcetmumbai.in" || email === "admin@test.com") {
@@ -47,6 +75,10 @@ async function ensureUserDocument(user: import('firebase/auth').User) {
       } else if (email.endsWith("@tcetmumbai.in") || email.endsWith("@faculty.tcetmumbai.in") || email === "teacher@test.com") {
         role = "teacher";
       }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       await setDoc(userRef, { role: role }, { merge: true });
     }
   }
@@ -83,6 +115,41 @@ export const signInWithGoogle = async () => {
       console.error("Error signing in with Google:", error.code, error.message);
       throw error;
     }
+<<<<<<< HEAD
+=======
+=======
+
+      await setDoc(userRef, {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        branch: "B.Tech CSE", // Default
+        year: "3rd Year", // Default
+        skills: [],
+        cgpa: "0.0",
+        attendance_percentage: 75, // Default attendance
+        role: role,
+        created_at: serverTimestamp()
+      });
+    } else {
+      // Ensure role exists for existing users
+      const data = userSnap.data();
+      if (!data.role) {
+        let role = "student";
+        const email = user.email || "";
+        if (email === "admin@tcetmumbai.in" || email === "admin@test.com") {
+          role = "super_admin";
+        } else if (email.endsWith("@tcetmumbai.in") || email.endsWith("@faculty.tcetmumbai.in") || email === "teacher@test.com") {
+          role = "teacher";
+        }
+        await setDoc(userRef, { role: role }, { merge: true });
+      }
+    }
+  } catch (error) {
+    console.error("Error signing in with Google", error);
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
   }
 };
 
@@ -151,4 +218,8 @@ export const getUserData = async (uid: string) => {
     return userSnap.data();
   }
   return null;
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8

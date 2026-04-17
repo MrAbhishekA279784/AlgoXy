@@ -17,7 +17,15 @@
     "@vitejs/plugin-react": "^5.0.4",
     "clsx": "^2.1.1",
     "cors": "^2.8.6",
+<<<<<<< HEAD
     "dotenv": "^17.4.2",
+=======
+<<<<<<< HEAD
+    "dotenv": "^17.4.2",
+=======
+    "dotenv": "^17.2.3",
+>>>>>>> 648baa19552d4e19f3f6230e8415d44bb744bf7e
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
     "express": "^4.21.2",
     "firebase": "^12.12.0",
     "firebase-admin": "^13.8.0",
@@ -40,4 +48,8 @@
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8

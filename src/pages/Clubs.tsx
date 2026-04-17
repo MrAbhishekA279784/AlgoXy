@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { Users, Shield, Zap, Heart, Search, ArrowRight } from "lucide-react";
 import { auth, db } from "@/lib/firebase";
+<<<<<<< HEAD
 import { doc, updateDoc, increment } from "firebase/firestore";
 import { joinClub } from "@/lib/db";
 import { fetchClubs } from "@/lib/api";
+=======
+import { collection, getDocs, doc, updateDoc, increment } from "firebase/firestore";
+import { joinClub } from "@/lib/db";
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +18,7 @@ export default function Clubs() {
   const [joining, setJoining] = useState<string | null>(null);
 
   useEffect(() => {
+<<<<<<< HEAD
     const loadData = async () => {
       try {
         const data = await fetchClubs();
@@ -20,11 +26,55 @@ export default function Clubs() {
       } catch (error) {
         console.error("Error fetching clubs", error);
         toast.error("Failed to load clubs");
+=======
+    const fetchClubs = async () => {
+      try {
+        const clubsSnap = await getDocs(collection(db, 'clubs'));
+        const clubsData = clubsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        const demoClubs = [
+          {
+            id: 'demo-club-1',
+            name: 'Google Developer Student Club',
+            description: 'A community for students interested in Google developer technologies.',
+            members_count: 450,
+            category: 'Technical',
+            icon: Zap,
+            color: 'bg-blue-500'
+          },
+          {
+            id: 'demo-club-2',
+            name: 'TCET ACM Student Chapter',
+            description: 'The world\'s largest educational and scientific computing society.',
+            members_count: 380,
+            category: 'Technical',
+            icon: Shield,
+            color: 'bg-slate-800'
+          },
+          {
+            id: 'demo-club-3',
+            name: 'NSS TCET',
+            description: 'National Service Scheme unit of TCET, focusing on social service.',
+            members_count: 250,
+            category: 'Social',
+            icon: Heart,
+            color: 'bg-red-500'
+          }
+        ];
+        
+        setClubs([...clubsData, ...demoClubs]);
+      } catch (error) {
+        console.error("Error fetching clubs", error);
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       } finally {
         setLoading(false);
       }
     };
+<<<<<<< HEAD
     loadData();
+=======
+    fetchClubs();
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
   }, []);
 
   const handleJoin = async (club: any) => {

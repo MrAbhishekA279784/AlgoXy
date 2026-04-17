@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import { Trophy, Medal, TrendingUp, Users, Star, Search, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getCategoryBadgeStyles } from "@/lib/placement";
+<<<<<<< HEAD
 import { fetchLeaderboard } from "@/lib/api";
 import { toast } from "sonner";
+=======
+import { db } from "@/lib/firebase";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 
 export default function Leaderboard() {
   const [leaders, setLeaders] = useState<any[]>([]);
@@ -13,6 +18,7 @@ export default function Leaderboard() {
   const filters = ["Overall", "Placement Category Rank"];
 
   useEffect(() => {
+<<<<<<< HEAD
     const loadLeaders = async () => {
       setLoading(true);
       try {
@@ -26,6 +32,120 @@ export default function Leaderboard() {
       }
     };
     loadLeaders();
+=======
+    setLoading(true);
+    
+    // Listen to users
+    const usersQuery = query(collection(db, "users"), where("role", "==", "student"));
+    const unsubscribeUsers = onSnapshot(usersQuery, (usersSnap) => {
+      const usersData = usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() as any }));
+      
+      // Listen to test attempts
+      const unsubscribeTests = onSnapshot(collection(db, "test_attempts"), (testsSnap) => {
+        const testsData = testsSnap.docs.map(doc => doc.data() as any);
+        
+        // Listen to ai interviews
+        const unsubscribeInterviews = onSnapshot(collection(db, "ai_interviews"), (interviewsSnap) => {
+          const interviewsData = interviewsSnap.docs.map(doc => doc.data() as any);
+          
+          // Calculate scores
+          const enrichedUsers = usersData.map(user => {
+            const userTests = testsData.filter(t => t.userId === user.id);
+            const userInterviews = interviewsData.filter(i => i.userId === user.id);
+            
+            const mockTestAvg = Number(userTests.length > 0 
+              ? userTests.reduce((acc, t) => acc + Number(t.score || 0), 0) / userTests.length 
+              : 0);
+              
+            const mockInterviewAvg = Number(userInterviews.length > 0
+              ? userInterviews.reduce((acc, i) => acc + Number(i.score || 0), 0) / userInterviews.length
+              : 0);
+              
+            const cgpa = Number(user.cgpa || 0);
+            const attendance = Number(user.attendance_percentage || 0);
+            
+            const rawFinalScore = (cgpa * 10) + (attendance * 0.5) + (mockTestAvg * 1.5) + (mockInterviewAvg * 1.5);
+            const finalScore = Number(rawFinalScore.toFixed(1));
+            
+            let category = 4;
+            if (cgpa >= 8.5 && attendance >= 75) category = 1;
+            else if (cgpa >= 7.5 && attendance >= 60) category = 2;
+            else if (cgpa >= 7.0 && attendance >= 60) category = 3;
+
+            return {
+              ...user,
+              finalScore,
+              categoryNum: category,
+              category: category === 4 ? "Not Eligible" : `Category ${category}`
+            };
+          });
+          
+          let finalLeaders = enrichedUsers;
+          
+          if (finalLeaders.length === 0) {
+            const demoStudents = [
+              { name: "Aarav Mehta", branch: "CSE", year: "4th", cgpa: 9.1, attendance_percentage: 82, mock_test_avg: 78, mock_interview_avg: 80 },
+              { name: "Riya Sharma", branch: "IT", year: "3rd", cgpa: 8.6, attendance_percentage: 76, mock_test_avg: 74, mock_interview_avg: 79 },
+              { name: "Karan Patel", branch: "EXTC", year: "4th", cgpa: 7.8, attendance_percentage: 68, mock_test_avg: 70, mock_interview_avg: 72 },
+              { name: "Neha Singh", branch: "CSE", year: "3rd", cgpa: 8.3, attendance_percentage: 71, mock_test_avg: 73, mock_interview_avg: 76 },
+              { name: "Aditya Verma", branch: "IT", year: "4th", cgpa: 7.5, attendance_percentage: 64, mock_test_avg: 68, mock_interview_avg: 70 },
+              { name: "Simran Kaur", branch: "CSE", year: "4th", cgpa: 9.0, attendance_percentage: 85, mock_test_avg: 82, mock_interview_avg: 85 },
+              { name: "Rahul Shah", branch: "EXTC", year: "3rd", cgpa: 7.2, attendance_percentage: 61, mock_test_avg: 65, mock_interview_avg: 68 },
+              { name: "Priya Nair", branch: "IT", year: "4th", cgpa: 8.4, attendance_percentage: 73, mock_test_avg: 75, mock_interview_avg: 77 },
+              { name: "Yash Patil", branch: "CSE", year: "3rd", cgpa: 8.9, attendance_percentage: 80, mock_test_avg: 80, mock_interview_avg: 82 },
+              { name: "Mehul Jain", branch: "EXTC", year: "4th", cgpa: 7.6, attendance_percentage: 66, mock_test_avg: 69, mock_interview_avg: 71 },
+            ];
+            
+            finalLeaders = demoStudents.map((user, index) => {
+              const cgpa = Number(user.cgpa || 0);
+              const attendance = Number(user.attendance_percentage || 0);
+              const mockTestAvg = Number(user.mock_test_avg || 0);
+              const mockInterviewAvg = Number(user.mock_interview_avg || 0);
+              
+              const rawFinalScore = (cgpa * 10) + (attendance * 0.5) + (mockTestAvg * 1.5) + (mockInterviewAvg * 1.5);
+              const finalScore = Number(rawFinalScore.toFixed(1));
+              
+              let category = 4;
+              if (cgpa >= 8.5 && attendance >= 75) category = 1;
+              else if (cgpa >= 7.5 && attendance >= 60) category = 2;
+              else if (cgpa >= 7.0 && attendance >= 60) category = 3;
+
+              return {
+                id: `demo-${index}`,
+                ...user,
+                finalScore,
+                categoryNum: category,
+                category: category === 4 ? "Not Eligible" : `Category ${category}`
+              };
+            });
+          }
+
+          if (activeFilter === "Placement Category Rank") {
+            finalLeaders.sort((a, b) => {
+              if (a.categoryNum !== b.categoryNum) return a.categoryNum - b.categoryNum;
+              const cgpaA = Number(a.cgpa || 0);
+              const cgpaB = Number(b.cgpa || 0);
+              if (cgpaA !== cgpaB) return cgpaB - cgpaA;
+              const attA = Number(a.attendance_percentage || 0);
+              const attB = Number(b.attendance_percentage || 0);
+              return attB - attA;
+            });
+          } else {
+            finalLeaders.sort((a, b) => b.finalScore - a.finalScore);
+          }
+          
+          setLeaders(finalLeaders);
+          setLoading(false);
+        });
+        
+        return () => unsubscribeInterviews();
+      });
+      
+      return () => unsubscribeTests();
+    });
+
+    return () => unsubscribeUsers();
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
   }, [activeFilter]);
 
   if (loading) {

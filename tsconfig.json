@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
+<<<<<<< HEAD
     "types": ["vite/client"],
+=======
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
     "target": "ES2022",
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
@@ -24,4 +27,8 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8

@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from "react";
+<<<<<<< HEAD
 import { ChevronDown, Info, FileText, Mic, Square, Sparkles, Send, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { startInterview, getFollowupQuestion, getInterviewFeedback } from "@/lib/api";
+=======
+import { ChevronDown, Info, FileText, PlayCircle, Mic, Square, Sparkles, Send, CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { chatAIInterview } from "@/lib/api";
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 import { saveInterviewAttempt, getUserActivity } from "@/lib/db";
 import { toast } from "sonner";
 
@@ -124,10 +130,18 @@ export default function MockInterviews() {
     if (!activeInterview || feedback) return;
     setIsThinking(true);
     try {
+<<<<<<< HEAD
       const res = await getInterviewFeedback(category, activeInterview.company, activeInterview.role, chatHistory);
       const fb = res.feedback || { score: 70, strengths: ['Completed session'], weaknesses: ['Practice more'], suggestedLearning: ['DSA', 'System Design'] };
       setFeedback(fb);
       try { await saveInterviewAttempt(activeInterview.company, activeInterview.role, category, chatHistory, fb); } catch {}
+=======
+      const res = await chatAIInterview(category, activeInterview.company, activeInterview.role, chatHistory, true);
+      const fb = res.feedback || JSON.parse(res.reply);
+      setFeedback(fb);
+      await saveInterviewAttempt(activeInterview.company, activeInterview.role, category, chatHistory, fb);
+      
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       const newAttempt = {
         id: Date.now(),
         role: activeInterview.role,
@@ -135,8 +149,14 @@ export default function MockInterviews() {
         date: new Date().toLocaleString('en-GB', { day: '2-digit', month: 'short', year: '2-digit', hour: 'numeric', minute: '2-digit', hour12: true })
       };
       setAttempts([newAttempt, ...attempts]);
+<<<<<<< HEAD
       toast.success("Interview completed!");
     } catch (e) {
+=======
+      toast.success("Interview completed and saved!");
+    } catch (e) {
+      console.error("Failed to end session", e);
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       toast.error("Failed to generate feedback");
     } finally {
       setIsThinking(false);
@@ -150,11 +170,19 @@ export default function MockInterviews() {
     setIsThinking(true);
     setTimeLeft(30 * 60);
     try {
+<<<<<<< HEAD
       const res = await startInterview(category, card.company, card.role);
       setChatHistory([{ role: 'ai', text: res.reply }]);
       speak(res.reply);
     } catch (error: any) {
       toast.error("Failed to start interview");
+=======
+      const res = await chatAIInterview(category, card.company, card.role, []);
+      setChatHistory([{ role: 'ai', text: res.reply }]);
+      speak(res.reply);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to start interview");
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       setActiveInterview(null);
     } finally {
       setIsThinking(false);
@@ -163,12 +191,21 @@ export default function MockInterviews() {
 
   const handleSendAnswer = async () => {
     if (!transcript.trim()) return;
+<<<<<<< HEAD
     if (isRecording) toggleRecording();
+=======
+    
+    if (isRecording) {
+      toggleRecording();
+    }
+
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
     const userText = transcript;
     setTranscript("");
     const newHistory = [...chatHistory, { role: 'user', text: userText }];
     setChatHistory(newHistory);
     setIsThinking(true);
+<<<<<<< HEAD
     try {
       const res = await getFollowupQuestion(category, activeInterview.company, activeInterview.role, newHistory);
       if (res.isFinished) {
@@ -177,11 +214,42 @@ export default function MockInterviews() {
         try { await saveInterviewAttempt(activeInterview.company, activeInterview.role, category, newHistory, fb); } catch {}
         setAttempts(prev => [{ id: Date.now(), role: activeInterview.role, score: `${fb.score}/100`, date: new Date().toLocaleString() }, ...prev]);
         toast.success("Interview completed!");
+=======
+
+    try {
+      const res = await chatAIInterview(category, activeInterview.company, activeInterview.role, newHistory);
+      
+      if (res.isFinished) {
+        try {
+          const fb = res.feedback || JSON.parse(res.reply);
+          setFeedback(fb);
+          
+          await saveInterviewAttempt(activeInterview.company, activeInterview.role, category, newHistory, fb);
+
+          const newAttempt = {
+            id: Date.now(),
+            role: activeInterview.role,
+            score: fb.score ? `${fb.score}/100` : 'N/A',
+            date: new Date().toLocaleString('en-GB', { day: '2-digit', month: 'short', year: '2-digit', hour: 'numeric', minute: '2-digit', hour12: true })
+          };
+          setAttempts([newAttempt, ...attempts]);
+          toast.success("Interview completed and saved!");
+          
+        } catch (e) {
+          console.error("Failed to parse feedback or save", e);
+          setChatHistory(prev => [...prev, { role: 'ai', text: res.reply }]);
+          speak(res.reply);
+        }
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       } else {
         setChatHistory(prev => [...prev, { role: 'ai', text: res.reply }]);
         speak(res.reply);
       }
+<<<<<<< HEAD
     } catch {
+=======
+    } catch (error: any) {
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       toast.error("Failed to get response");
     } finally {
       setIsThinking(false);

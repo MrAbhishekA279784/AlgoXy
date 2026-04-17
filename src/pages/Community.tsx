@@ -9,7 +9,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+<<<<<<< HEAD
 import { fetchCommunity, likePostApi, replyPostApi } from "@/lib/api";
+=======
+import { getCommunityPosts, likePost, replyPost } from "@/lib/db";
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 import PostModal from "@/components/community/PostModal";
 import { auth } from "@/lib/firebase";
 import { toast } from "sonner";
@@ -25,11 +29,19 @@ export default function Community() {
 
   const loadPosts = async () => {
     try {
+<<<<<<< HEAD
       const data = await fetchCommunity();
       setPosts(data);
     } catch (error) {
       console.error("Error loading community posts:", error);
       toast.error("Failed to load community feed.");
+=======
+      const data = await getCommunityPosts();
+      setPosts(data);
+    } catch (error) {
+      console.error("Error loading community posts:", error);
+      toast.error("Failed to load community feed. Please try again later.");
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
     } finally {
       setLoading(false);
     }
@@ -41,22 +53,39 @@ export default function Community() {
 
   const handleLike = async (postId: string) => {
     try {
+<<<<<<< HEAD
       await likePostApi(postId);
       setPosts(prev => prev.map(p => p.id === postId ? { ...p, likesCount: (p.likesCount || 0) + 1 } : p));
     } catch (error: any) {
       toast.error("Failed to like post");
+=======
+      await likePost(postId);
+      setPosts(prev => prev.map(p => p.id === postId ? { ...p, likesCount: (p.likesCount || 0) + 1 } : p));
+    } catch (error: any) {
+      toast.error(error.message);
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
     }
   };
 
   const handleReply = async (postId: string) => {
     const content = prompt("Enter your reply:");
     if (!content) return;
+<<<<<<< HEAD
     try {
       await replyPostApi(postId, { content, authorName: auth.currentUser?.displayName || "Anonymous" });
       setPosts(prev => prev.map(p => p.id === postId ? { ...p, comments: (p.comments || 0) + 1 } : p));
       toast.success("Reply added!");
     } catch (error: any) {
       toast.error("Failed to add reply");
+=======
+    
+    try {
+      await replyPost(postId, content, auth.currentUser?.displayName || "Anonymous", auth.currentUser?.photoURL || "");
+      setPosts(prev => prev.map(p => p.id === postId ? { ...p, comments: (p.comments || 0) + 1 } : p));
+      toast.success("Reply added!");
+    } catch (error: any) {
+      toast.error(error.message);
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
     }
   };
 

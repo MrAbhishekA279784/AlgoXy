@@ -1,5 +1,9 @@
 import { useState, FormEvent } from "react";
+<<<<<<< HEAD
 import { createPost } from "@/lib/api";
+=======
+import { createCommunityPost } from "@/lib/db";
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
 import { auth } from "@/lib/firebase";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "motion/react";
@@ -20,11 +24,15 @@ export default function PostModal({ isOpen, onClose }: PostModalProps) {
     setIsPosting(true);
     try {
       const user = auth.currentUser;
+<<<<<<< HEAD
       await createPost({
         content,
         authorName: user?.displayName || "Anonymous",
         authorAvatar: user?.photoURL || "https://i.pravatar.cc/150?u=anon"
       });
+=======
+      await createCommunityPost(content, user?.displayName || "Anonymous", user?.photoURL || "https://i.pravatar.cc/150?u=anon");
+>>>>>>> 58850df9608a9c315f026222dce4eaad0f14e3f8
       toast.success("Post created successfully!");
       setContent("");
       onClose();
