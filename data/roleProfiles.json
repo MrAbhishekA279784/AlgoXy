@@ -1,0 +1,92 @@
+{
+  "Software Engineer": {
+    "description": "Design, develop and maintain software systems for products and platforms.",
+    "avgSalary": "₹6-18 LPA",
+    "topCompanies": ["TCS", "Infosys", "Wipro", "Accenture", "HCL", "Cognizant"],
+    "roadmap": [
+      "Master any one programming language (Python/Java/C++)",
+      "Learn Data Structures & Algorithms thoroughly",
+      "Build 2-3 full-stack projects for portfolio",
+      "Contribute to open source on GitHub",
+      "Practice 150+ LeetCode problems",
+      "Learn system design basics",
+      "Prepare for aptitude and coding rounds"
+    ],
+    "certifications": ["AWS Certified Developer", "Google Cloud Associate", "Oracle Java Certification"]
+  },
+  "Full Stack Developer": {
+    "description": "Build complete web applications handling both frontend and backend.",
+    "avgSalary": "₹8-25 LPA",
+    "topCompanies": ["Flipkart", "Swiggy", "Zomato", "Razorpay", "Freshworks", "Zoho"],
+    "roadmap": [
+      "Master HTML, CSS, JavaScript fundamentals",
+      "Learn React.js or Vue.js for frontend",
+      "Learn Node.js + Express for backend",
+      "Master SQL and one NoSQL database",
+      "Build and deploy 3 full-stack projects",
+      "Learn RESTful API design principles",
+      "Study Git, Docker, and CI/CD basics"
+    ],
+    "certifications": ["Meta Front-End Developer Certificate", "IBM Full Stack Certificate", "AWS Solutions Architect"]
+  },
+  "Data Analyst": {
+    "description": "Analyze datasets to provide business insights and drive decisions.",
+    "avgSalary": "₹5-15 LPA",
+    "topCompanies": ["Deloitte", "EY", "Fractal Analytics", "Mu Sigma", "Accenture", "Nielsen"],
+    "roadmap": [
+      "Master Excel and Google Sheets",
+      "Learn SQL thoroughly (joins, subqueries, window functions)",
+      "Learn Python with Pandas and NumPy",
+      "Build proficiency in Tableau or Power BI",
+      "Study statistics and probability",
+      "Complete 2 analytics projects with real datasets",
+      "Learn storytelling with data"
+    ],
+    "certifications": ["Google Data Analytics Certificate", "IBM Data Analyst Certificate", "Microsoft PL-300 (Power BI)"]
+  },
+  "Data Scientist": {
+    "description": "Build ML models and extract insights from large datasets.",
+    "avgSalary": "₹10-30 LPA",
+    "topCompanies": ["Amazon", "Google", "Microsoft", "Uber", "Walmart Labs", "Flipkart"],
+    "roadmap": [
+      "Master Python (NumPy, Pandas, Matplotlib, Seaborn)",
+      "Study Statistics, Probability and Linear Algebra",
+      "Learn Scikit-learn for classical ML algorithms",
+      "Deep dive into Deep Learning (TensorFlow or PyTorch)",
+      "Work on Kaggle competitions",
+      "Learn feature engineering and model deployment",
+      "Build end-to-end ML projects"
+    ],
+    "certifications": ["DeepLearning.AI TensorFlow Developer", "AWS Machine Learning Specialty", "Google Professional ML Engineer"]
+  },
+  "Design Engineer": {
+    "description": "Design mechanical components and systems using CAD tools.",
+    "avgSalary": "₹4-12 LPA",
+    "topCompanies": ["Tata Motors", "Mahindra", "Bajaj Auto", "L&T", "Bosch", "Cummins"],
+    "roadmap": [
+      "Master SolidWorks or CATIA for 3D modeling",
+      "Study GD&T (Geometric Dimensioning and Tolerancing)",
+      "Learn FEA using ANSYS",
+      "Study materials science and selection",
+      "Understand manufacturing processes deeply",
+      "Work on capstone design projects",
+      "Learn product lifecycle management (PLM)"
+    ],
+    "certifications": ["CSWA (SolidWorks Associate)", "CATIA Certification", "ANSYS Certified Simulation Associate"]
+  },
+  "Site Engineer": {
+    "description": "Oversee construction activities and ensure quality and safety on site.",
+    "avgSalary": "₹4-10 LPA",
+    "topCompanies": ["L&T Construction", "DLF", "Shapoorji Pallonji", "Tata Projects", "AECOM"],
+    "roadmap": [
+      "Master AutoCAD for construction drawings",
+      "Learn STAAD Pro for structural analysis",
+      "Study concrete technology and mix design",
+      "Understand IS codes (IS 456, IS 800)",
+      "Learn project management with MS Project or Primavera",
+      "Complete site internship for practical experience",
+      "Study safety standards and regulations"
+    ],
+    "certifications": ["PMP (Project Management Professional)", "LEED Green Associate", "AutoCAD Certified Professional"]
+  }
+}
