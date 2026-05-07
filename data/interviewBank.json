@@ -1,0 +1,104 @@
+{
+  "Tech": {
+    "TCS": {
+      "Software Engineer": [
+        "Tell me about yourself and why you want to join TCS.",
+        "Explain the difference between a process and a thread.",
+        "What is the difference between stack and heap memory?",
+        "Explain Object-Oriented Programming with a real-world example.",
+        "What is polymorphism? Give an example.",
+        "Describe the SDLC phases you are familiar with.",
+        "What is a RESTful API? How does it differ from SOAP?",
+        "Write a program to reverse a string without using built-in functions.",
+        "Explain the concept of recursion with an example.",
+        "How would you optimize a slow SQL query?"
+      ]
+    },
+    "Infosys": {
+      "QA Engineer": [
+        "What is software testing and why is it important?",
+        "Explain the difference between black-box and white-box testing.",
+        "What is a test case? Walk me through writing one.",
+        "What is regression testing and when is it performed?",
+        "Explain the difference between smoke and sanity testing.",
+        "What are the different levels of software testing?",
+        "What is a bug life cycle?",
+        "How do you prioritize test cases?",
+        "What tools have you used for test automation?",
+        "Describe a situation where you found a critical bug late in the cycle."
+      ]
+    },
+    "Deloitte": {
+      "Data Analyst": [
+        "Walk me through your experience with data analysis.",
+        "What is the difference between SQL JOIN types?",
+        "How do you handle missing data in a dataset?",
+        "Explain the concept of normalization in databases.",
+        "What is a pivot table and when would you use it?",
+        "Describe your experience with Excel or Google Sheets for data analysis.",
+        "What is the difference between structured and unstructured data?",
+        "How would you approach building a dashboard for a business stakeholder?",
+        "Explain the difference between a bar chart and a histogram.",
+        "What metrics would you track for an e-commerce platform?"
+      ]
+    },
+    "Accenture": {
+      "Software Engineer": [
+        "Tell me about yourself.",
+        "What is the difference between a list and a tuple in Python?",
+        "Explain the MVC design pattern.",
+        "What is the significance of HTTP status codes?",
+        "What is version control and have you used Git?",
+        "Explain the concept of a foreign key in a database.",
+        "What is cloud computing? Name any cloud platforms you know.",
+        "How do you ensure code quality in a team environment?",
+        "Describe Agile methodology and its advantages.",
+        "What is the difference between synchronous and asynchronous programming?"
+      ]
+    }
+  },
+  "Mechanical": {
+    "Tata Motors": {
+      "Design Engineer": [
+        "Tell me about your experience with CAD software.",
+        "What is the difference between tensile strength and yield strength?",
+        "Explain the concept of fatigue failure.",
+        "What is GD&T and why is it important?",
+        "Describe the design process for a mechanical component.",
+        "What are the common types of fits and tolerances?",
+        "Explain the difference between static and dynamic analysis.",
+        "What materials would you choose for a high-temperature application?",
+        "How do you approach FEA (Finite Element Analysis)?",
+        "What experience do you have with manufacturing processes?"
+      ]
+    }
+  },
+  "Civil": {
+    "L&T": {
+      "Site Engineer": [
+        "What is the difference between IS 456 and IS 800?",
+        "Explain the concept of bearing capacity of soil.",
+        "What is the purpose of a slump test?",
+        "Describe the process of construction project planning.",
+        "What safety protocols do you follow on a construction site?",
+        "Explain the difference between RCC and pre-stressed concrete.",
+        "What is critical path method (CPM)?",
+        "How do you handle project delays?",
+        "What software do you use for structural analysis?",
+        "Describe a challenging site situation and how you resolved it."
+      ]
+    }
+  },
+  "generic": [
+    "Tell me about yourself.",
+    "Why do you want to work at this company?",
+    "What are your greatest strengths and weaknesses?",
+    "Where do you see yourself in 5 years?",
+    "Describe a challenging project you worked on.",
+    "How do you handle pressure and tight deadlines?",
+    "Tell me about a time you worked in a team.",
+    "What motivates you?",
+    "Do you have any questions for us?",
+    "Why should we hire you?"
+  ]
+}

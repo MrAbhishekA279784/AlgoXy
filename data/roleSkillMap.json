@@ -1,0 +1,65 @@
+{
+  "Software Engineer": {
+    "required": ["DSA", "OOP", "SQL", "Git", "Problem Solving"],
+    "preferred": ["React", "Node.js", "Python", "Java", "System Design"],
+    "minCGPA": 7.0,
+    "minAttendance": 60,
+    "category": "Tech"
+  },
+  "Full Stack Developer": {
+    "required": ["React", "Node.js", "SQL", "REST APIs", "Git"],
+    "preferred": ["TypeScript", "Docker", "MongoDB", "AWS"],
+    "minCGPA": 7.0,
+    "minAttendance": 60,
+    "category": "Tech"
+  },
+  "Data Analyst": {
+    "required": ["SQL", "Python", "Excel", "Statistics", "Data Visualization"],
+    "preferred": ["Pandas", "Power BI", "Tableau", "Machine Learning"],
+    "minCGPA": 7.5,
+    "minAttendance": 65,
+    "category": "Tech"
+  },
+  "Data Scientist": {
+    "required": ["Python", "Machine Learning", "Statistics", "SQL", "NumPy"],
+    "preferred": ["Deep Learning", "TensorFlow", "NLP", "Spark"],
+    "minCGPA": 8.0,
+    "minAttendance": 70,
+    "category": "Tech"
+  },
+  "QA Engineer": {
+    "required": ["Testing", "SQL", "Agile", "Bug Tracking", "Documentation"],
+    "preferred": ["Selenium", "Postman", "JIRA", "Automation"],
+    "minCGPA": 6.5,
+    "minAttendance": 60,
+    "category": "Tech"
+  },
+  "Design Engineer": {
+    "required": ["AutoCAD", "SolidWorks", "GD&T", "Thermodynamics", "Materials Science"],
+    "preferred": ["ANSYS", "CATIA", "FEA", "Manufacturing Processes"],
+    "minCGPA": 7.0,
+    "minAttendance": 65,
+    "category": "Mechanical"
+  },
+  "Site Engineer": {
+    "required": ["Structural Analysis", "AutoCAD", "Project Management", "Concrete Technology", "Surveying"],
+    "preferred": ["STAAD Pro", "Revit", "Primavera", "Safety Management"],
+    "minCGPA": 6.5,
+    "minAttendance": 60,
+    "category": "Civil"
+  },
+  "Electrical Engineer": {
+    "required": ["Circuit Analysis", "Power Systems", "MATLAB", "Control Systems", "Transformers"],
+    "preferred": ["PLC Programming", "SCADA", "AutoCAD Electrical", "Power Electronics"],
+    "minCGPA": 7.0,
+    "minAttendance": 65,
+    "category": "Electrical"
+  },
+  "Embedded Systems Engineer": {
+    "required": ["C/C++", "Microcontrollers", "RTOS", "Digital Electronics", "Communication Protocols"],
+    "preferred": ["Linux", "ARM", "Python", "PCB Design", "FPGA"],
+    "minCGPA": 7.5,
+    "minAttendance": 70,
+    "category": "Tech"
+  }
+}

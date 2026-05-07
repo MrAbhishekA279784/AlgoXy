@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Student profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "photoURL": { "type": "string", "format": "uri" },
+        "branch": { "type": "string" },
+        "year": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "cgpa": { "type": "string" },
+        "attendance_percentage": { "type": "number", "description": "Student attendance percentage" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "Job or Internship opportunity",
+      "type": "object",
+      "properties": {
+        "company": { "type": "string" },
+        "logo": { "type": "string", "format": "uri" },
+        "role": { "type": "string" },
+        "location": { "type": "string" },
+        "type": { "type": "string", "enum": ["Full-time", "Part-time", "Internship"] },
+        "salary": { "type": "string" },
+        "posted": { "type": "string" },
+        "apply_url": { "type": "string", "format": "uri" },
+        "skills": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "TestAttempt": {
+      "title": "TestAttempt",
+      "description": "Record of a mock test attempt",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "testId": { "type": "string" },
+        "testTitle": { "type": "string" },
+        "score": { "type": "number" },
+        "timeTaken": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "AIInterview": {
+      "title": "AIInterview",
+      "description": "Record of an AI mock interview",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "company": { "type": "string" },
+        "role": { "type": "string" },
+        "category": { "type": "string" },
+        "questions": { "type": "array", "items": { "type": "string" } },
+        "answers": { "type": "array", "items": { "type": "string" } },
+        "finalScore": { "type": "number" },
+        "feedback": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Job and Internship opportunities"
+    },
+    "/test_attempts/{attemptId}": {
+      "schema": "TestAttempt",
+      "description": "Mock test attempts"
+    },
+    "/ai_interviews/{interviewId}": {
+      "schema": "AIInterview",
+      "description": "AI mock interview records"
+    }
+  }
+}
