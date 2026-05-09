@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+
 import {
   getAuth,
   GoogleAuthProvider,
@@ -17,14 +18,21 @@ import {
   serverTimestamp
 } from 'firebase/firestore';
 
-import firebaseConfig from '../../firebase-applet-config.json';
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+};
 
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-const googleProvider = new GoogleAuthProvider();
+export const googleProvider = new GoogleAuthProvider();
 
 async function ensureUserDocument(user: any) {
   const userRef = doc(db, 'users', user.uid);
@@ -32,6 +40,7 @@ async function ensureUserDocument(user: any) {
 
   if (!userSnap.exists()) {
     let role = 'student';
+
     const email = user.email || '';
 
     if (
@@ -71,8 +80,26 @@ export const handleGoogleRedirectResult = async () => {
 };
 
 export const signInWithGoogle = async () => {
-  const result = await signInWithPopup(auth, googleProvider);
-  await ensureUserDocument(result.user);
+  try {
+    const result = await signInWithPopup(
+      auth,
+      googleProvider
+    );
+
+    await ensureUserDocument(result.user);
+
+    return result;
+  } catch (error: any) {
+    if (
+      error.code === 'auth/popup-blocked' ||
+      error.code === 'auth/popup-closed-by-user'
+    ) {
+      await signInWithRedirect(auth, googleProvider);
+    } else {
+      console.error(error);
+      throw error;
+    }
+  }
 };
 
 export const signInWithEmail = async (
@@ -92,6 +119,7 @@ export const logout = async () => {
 
 export const getUserData = async (uid: string) => {
   const userRef = doc(db, 'users', uid);
+
   const userSnap = await getDoc(userRef);
 
   if (userSnap.exists()) {

@@ -4,21 +4,17 @@ import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { readFileSync } from 'fs';
-import { createRequire } from 'module';
 import { GoogleGenAI } from '@google/genai';
 import admin from 'firebase-admin';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const require = createRequire(import.meta.url);
+const __dirname = path.dirname(
+  fileURLToPath(import.meta.url)
+);
 
-const firebaseConfig = require('./firebase-applet-config.json');
-
-// Firebase
+// Firebase Admin
 if (!admin.apps.length) {
   admin.initializeApp({
-    projectId: firebaseConfig.projectId,
-    databaseURL: `https://${firebaseConfig.projectId}.firebaseio.com`,
+    projectId: process.env.VITE_FIREBASE_PROJECT_ID
   });
 }
 
@@ -29,7 +25,7 @@ const GEMINI_KEY = process.env.GEMINI_API_KEY || '';
 
 const genAI = GEMINI_KEY
   ? new GoogleGenAI({
-      apiKey: GEMINI_KEY,
+      apiKey: GEMINI_KEY
     })
   : null;
 
@@ -43,61 +39,67 @@ app.get('/api/health', (_req, res) => {
   res.json({
     status: 'ok',
     gemini: !!genAI,
-    firebase: !!db,
-    timestamp: new Date().toISOString(),
+    firebase: true,
+    timestamp: new Date().toISOString()
   });
 });
 
-// Events
+// Events API
 app.get('/api/events', async (_req, res) => {
   try {
     const snap = await db.collection('events').get();
 
     const events = snap.docs.map(doc => ({
       id: doc.id,
-      ...doc.data(),
+      ...doc.data()
     }));
 
     res.json(events);
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      error: 'Failed to fetch events',
+      error: 'Failed to fetch events'
     });
   }
 });
 
-// Clubs
+// Clubs API
 app.get('/api/clubs', async (_req, res) => {
   try {
     const snap = await db.collection('clubs').get();
 
     const clubs = snap.docs.map(doc => ({
       id: doc.id,
-      ...doc.data(),
+      ...doc.data()
     }));
 
     res.json(clubs);
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      error: 'Failed to fetch clubs',
+      error: 'Failed to fetch clubs'
     });
   }
 });
 
-// Jobs
+// Jobs API
 app.get('/api/jobs', async (_req, res) => {
   try {
     const snap = await db.collection('jobs').get();
 
     const jobs = snap.docs.map(doc => ({
       id: doc.id,
-      ...doc.data(),
+      ...doc.data()
     }));
 
     res.json(jobs);
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      error: 'Failed to fetch jobs',
+      error: 'Failed to fetch jobs'
     });
   }
 });
@@ -110,7 +112,7 @@ app.post('/api/ai', async (req, res) => {
     if (!genAI) {
       return res.json({
         answer:
-          'Gemini API key missing. Add GEMINI_API_KEY in .env file.',
+          'Gemini API key missing. Add GEMINI_API_KEY in .env file.'
       });
     }
 
@@ -121,30 +123,32 @@ app.post('/api/ai', async (req, res) => {
           role: 'user',
           parts: [
             {
-              text: question,
-            },
-          ],
-        },
-      ],
+              text: question
+            }
+          ]
+        }
+      ]
     });
 
     res.json({
-      answer: response.text,
+      answer: response.text
     });
   } catch (err: any) {
+    console.error(err);
+
     res.status(500).json({
-      error: err.message,
+      error: err.message
     });
   }
 });
 
-// Vite
+// Start Vite + Express Server
 async function startServer() {
   const vite = await createViteServer({
     server: {
-      middlewareMode: true,
+      middlewareMode: true
     },
-    appType: 'spa',
+    appType: 'spa'
   });
 
   app.use(vite.middlewares);
