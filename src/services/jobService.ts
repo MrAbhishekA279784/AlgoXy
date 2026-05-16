@@ -83,7 +83,7 @@ export function getLocalFallbackJobs(type: string) {
     if (type === 'Internship' || type === 'All') {
         localBank.push(...data.internshipBank);
     }
-    if (type !== 'Internship' || type === 'All') {
+    if (type !== 'Internship') {
         localBank.push(...data.fresherJobs);
     }
     

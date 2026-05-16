@@ -48,16 +48,26 @@ export default function Opportunities() {
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
+      // Timeout for Firebase
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+
       try {
         let skills: string[] = [];
         if (auth.currentUser) {
-          const userDoc = await getDoc(doc(db, 'users', auth.currentUser.uid));
-          if (userDoc.exists()) {
-            skills = userDoc.data().skills || [];
+          try {
+            const userDoc = await getDoc(doc(db, 'users', auth.currentUser.uid));
+            if (userDoc.exists()) {
+              skills = userDoc.data().skills || [];
+            }
+          } catch (e) {
+            console.warn("Could not fetch user skills from Firebase, using empty array.");
           }
         }
 
         const jobsData = await fetchOpportunities(activeFilter);
+        clearTimeout(timeout);
         
         setUserSkills(skills);
 
@@ -78,6 +88,7 @@ export default function Opportunities() {
         
         setJobs(processedJobs);
       } catch (error) {
+        clearTimeout(timeout);
         console.error("Error fetching opportunities:", error);
         toast.error("Failed to load opportunities. Please try again later.");
       } finally {

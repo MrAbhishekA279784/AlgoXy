@@ -28,12 +28,27 @@ export default function App() {
 
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
+        // Set a timeout to prevent infinite loading if Firestore is unreachable
+        const timeout = setTimeout(() => {
+          if (loadingRole) {
+            console.warn("Firestore role fetch timed out. Defaulting to student.");
+            setRole("student");
+            setLoadingRole(false);
+          }
+        }, 3000);
+
         unsubscribeSnapshot = onSnapshot(doc(db, "users", user.uid), (docSnap) => {
+          clearTimeout(timeout);
           if (docSnap.exists()) {
             setRole(docSnap.data().role || "student");
           } else {
             setRole("student");
           }
+          setLoadingRole(false);
+        }, (error) => {
+          clearTimeout(timeout);
+          console.error("Firestore error:", error);
+          setRole("student");
           setLoadingRole(false);
         });
       } else {

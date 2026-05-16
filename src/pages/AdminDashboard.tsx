@@ -2,22 +2,23 @@ import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import {
   Users, BookOpen, Briefcase, Calendar, MessageSquare,
-  Plus, Trash2, Edit2, X, Check, RefreshCw, Shield
+  Plus, Trash2, Edit2, X, Check, RefreshCw, Shield, Building2
 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, doc, updateDoc, setDoc } from "firebase/firestore";
-import { getCategoryBadgeStyles } from "@/lib/placement";
+import { getCategoryBadgeStyles, calculateCategory } from "@/lib/placement";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
-  fetchAdminStats, fetchAdminUsers, updateAdminUser, deleteAdminUser,
+  fetchAdminUsers, updateAdminUser, deleteAdminUser,
   createEvent, deleteEvent, fetchEvents,
   createClub, deleteClub, fetchClubs,
   createJob, deleteJob, fetchOpportunities,
   deletePost, fetchCommunity,
 } from "@/lib/api";
+import { onSnapshot, query, where, deleteDoc } from "firebase/firestore";
 
-type Tab = "overview" | "users" | "events" | "clubs" | "jobs" | "community";
+type Tab = "overview" | "users" | "events" | "clubs" | "jobs" | "community" | "hr_requests";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
@@ -27,6 +28,7 @@ export default function AdminDashboard() {
   const [clubs, setClubs] = useState<any[]>([]);
   const [jobs, setJobs] = useState<any[]>([]);
   const [posts, setPosts] = useState<any[]>([]);
+  const [hrRequests, setHrRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Create modals
@@ -39,31 +41,50 @@ export default function AdminDashboard() {
   const [clubForm, setClubForm] = useState({ name: "", description: "", icon: "🏛️" });
   const [jobForm, setJobForm] = useState({ company: "", role: "", location: "", type: "Full-time", salary: "", apply_url: "" });
 
-  const loadAll = async () => {
-    setLoading(true);
-    try {
-      const [s, u, e, c, j, p] = await Promise.all([
-        fetchAdminStats().catch(() => ({})),
-        fetchAdminUsers().catch(() => []),
-        fetchEvents().catch(() => []),
-        fetchClubs().catch(() => []),
-        fetchOpportunities().catch(() => []),
-        fetchCommunity().catch(() => []),
-      ]);
-      setStats(s);
+  useEffect(() => {
+    loadAll();
+    
+    // Real-time snapshots for stats
+    const unsubUsers = onSnapshot(collection(db, "users"), (snap) => {
+      const u = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setUsers(u);
-      setEvents(e);
-      setClubs(c);
-      setJobs(j);
-      setPosts(p);
-    } catch (e) {
-      toast.error("Failed to load data");
-    } finally {
-      setLoading(false);
-    }
-  };
+      setStats((prev: any) => ({
+        ...prev,
+        totalUsers: snap.size,
+        totalStudents: u.filter((x: any) => x.role === 'student').length,
+        totalTeachers: u.filter((x: any) => x.role === 'teacher').length,
+        hrAccounts: u.filter((x: any) => x.role === 'hr').length,
+      }));
+    });
 
-  useEffect(() => { loadAll(); }, []);
+    const unsubJobs = onSnapshot(collection(db, "opportunities"), (snap) => {
+      setStats((prev: any) => ({
+        ...prev,
+        jobPostings: snap.docs.filter(d => d.data().type === 'Full-time').length,
+        internships: snap.docs.filter(d => d.data().type === 'Internship').length,
+      }));
+    });
+
+    const unsubEvents = onSnapshot(collection(db, "events"), (snap) => {
+      setStats((prev: any) => ({ ...prev, events: snap.size }));
+    });
+
+    const unsubPosts = onSnapshot(collection(db, "community"), (snap) => {
+      setStats((prev: any) => ({ ...prev, communityPosts: snap.size }));
+    });
+
+    const unsubHR = onSnapshot(collection(db, "hr_requests"), (snap) => {
+      setHrRequests(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    return () => {
+      unsubUsers();
+      unsubJobs();
+      unsubEvents();
+      unsubPosts();
+      unsubHR();
+    };
+  }, []);
 
   const handleDeleteUser = async (id: string) => {
     if (!confirm("Delete this user?")) return;
@@ -144,13 +165,39 @@ export default function AdminDashboard() {
     } catch { toast.error("Failed to delete post"); }
   };
 
-  const calcCategory = (u: any) => {
-    const c = parseFloat(u.cgpa || "0"), a = parseFloat(u.attendance_percentage || "0");
-    if (c >= 8.5 && a >= 75) return "Category 1";
-    if (c >= 7.5 && a >= 60) return "Category 2";
-    if (c >= 7.0 && a >= 60) return "Category 3";
-    return "Not Eligible";
+  const handleApproveHR = async (req: any) => {
+    try {
+      // 1. Create user document if it doesn't exist, or update role
+      await setDoc(doc(db, "users", req.id), {
+        name: req.hr_name,
+        email: req.email,
+        company: req.company_name,
+        role: "hr",
+        status: "approved"
+      }, { merge: true });
+
+      // 2. Update request status
+      await updateDoc(doc(db, "hr_requests", req.id), { status: "approved" });
+      toast.success("HR Request Approved");
+    } catch { toast.error("Approval failed"); }
   };
+
+  const handleRejectHR = async (id: string) => {
+    try {
+      await updateDoc(doc(db, "hr_requests", id), { status: "rejected" });
+      toast.success("HR Request Rejected");
+    } catch { toast.error("Rejection failed"); }
+  };
+
+  const handleDeleteHR = async (id: string) => {
+    if (!confirm("Remove this request?")) return;
+    try {
+      await deleteDoc(doc(db, "hr_requests", id));
+      toast.success("Request removed");
+    } catch { toast.error("Failed to remove"); }
+  };
+
+  const calcCategory = (u: any) => calculateCategory(u.cgpa || 0, u.attendance_percentage || 0);
 
   const TABS: { id: Tab; label: string; icon: any }[] = [
     { id: "overview", label: "Overview", icon: Shield },
@@ -159,6 +206,7 @@ export default function AdminDashboard() {
     { id: "clubs", label: "Clubs", icon: BookOpen },
     { id: "jobs", label: "Jobs", icon: Briefcase },
     { id: "community", label: "Community", icon: MessageSquare },
+    { id: "hr_requests", label: "Partners", icon: Building2 },
   ];
 
   return (
@@ -492,6 +540,69 @@ export default function AdminDashboard() {
               </button>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* ── Partners (HR Requests) ── */}
+      {activeTab === "hr_requests" && (
+        <div className="space-y-4">
+          <h2 className="font-bold text-gray-900 dark:text-white">Partner Requests ({hrRequests.length})</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {hrRequests.map((r, i) => (
+              <div key={r.id || i} className="bg-white dark:bg-[#111827] rounded-2xl border border-gray-200 dark:border-gray-800 p-6 space-y-4 relative overflow-hidden group">
+                <div className="flex items-start justify-between relative z-10">
+                  <div className="space-y-1">
+                    <h3 className="font-bold text-lg text-gray-900 dark:text-white">{r.company_name}</h3>
+                    <span className={cn("text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase", 
+                      getCategoryBadgeStyles(r.status || 'pending'))}>
+                      {r.status || 'pending'}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    {r.status !== 'approved' && (
+                      <button onClick={() => handleApproveHR(r)} className="p-2 bg-green-50 text-green-600 rounded-xl hover:bg-green-100 transition-colors" title="Approve">
+                        <Check className="w-4 h-4" />
+                      </button>
+                    )}
+                    {r.status === 'pending' && (
+                      <button onClick={() => handleRejectHR(r.id)} className="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors" title="Reject">
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
+                    <button onClick={() => handleDeleteHR(r.id)} className="p-2 bg-gray-50 text-gray-500 rounded-xl hover:bg-gray-100 transition-colors" title="Remove">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 text-sm relative z-10">
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs">HR Contact</p>
+                    <p className="font-semibold text-gray-900 dark:text-white">{r.hr_name}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs">Email</p>
+                    <p className="font-semibold text-gray-900 dark:text-white truncate">{r.email}</p>
+                  </div>
+                </div>
+
+                {r.message && (
+                  <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-xl relative z-10">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 font-semibold uppercase tracking-wider">Proposal Message</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 italic">"{r.message}"</p>
+                  </div>
+                )}
+                
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-blue-500/10 transition-colors" />
+              </div>
+            ))}
+            {hrRequests.length === 0 && (
+              <div className="col-span-full py-20 text-center bg-white dark:bg-[#111827] rounded-3xl border border-dashed border-gray-200 dark:border-gray-800">
+                <Building2 className="w-12 h-12 text-gray-300 dark:text-gray-700 mx-auto mb-4" />
+                <p className="text-gray-500 dark:text-gray-400">No partner requests to display.</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

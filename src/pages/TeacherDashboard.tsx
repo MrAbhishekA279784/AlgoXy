@@ -3,15 +3,16 @@ import {
   Search, Filter, ArrowUpDown, RefreshCw, BookOpen, Target, Users,
   Plus, Trash2, Calendar, Briefcase, UserCheck
 } from "lucide-react";
-import { getCategoryBadgeStyles } from "@/lib/placement";
+import { getCategoryBadgeStyles, calculateCategory } from "@/lib/placement";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { db } from "@/lib/firebase";
+import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
 import {
-  fetchAdminUsers,
-  createEvent, deleteEvent, fetchEvents,
-  createJob, deleteJob, fetchOpportunities,
+  createEvent, deleteEvent,
+  createJob, deleteJob,
   fetchClubMembers, removeClubMember, fetchClubs,
-  createAttendance, fetchAttendance,
+  createAttendance,
 } from "@/lib/api";
 
 type TeacherTab = "students" | "events" | "opportunities" | "attendance" | "clubs";
@@ -37,47 +38,58 @@ export default function TeacherDashboard() {
   const [jobForm, setJobForm] = useState({ company: "", role: "", location: "", type: "Full-time", salary: "", apply_url: "" });
   const [attForm, setAttForm] = useState({ studentName: "", studentId: "", date: "", status: "present" });
 
-  const loadStudents = async () => {
+  useEffect(() => {
     setLoading(true);
-    try {
-      const all = await fetchAdminUsers();
-      const studentList = all.filter((u: any) => u.role === "student" || !u.role).map((s: any) => {
-        const c = parseFloat(s.cgpa || "0"), a = parseFloat(s.attendance_percentage || "0");
-        let category = "Not Eligible";
-        if (c >= 8.5 && a >= 75) category = "Category 1";
-        else if (c >= 7.5 && a >= 60) category = "Category 2";
-        else if (c >= 7.0 && a >= 60) category = "Category 3";
-        return { ...s, category };
-      });
+    
+    // 1. Students Snapshot
+    const unsubStudents = onSnapshot(collection(db, "users"), (snap) => {
+      const studentList = snap.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .filter((u: any) => u.role === "student" || !u.role)
+        .map((s: any) => {
+          const category = calculateCategory(s.cgpa || 0, s.attendance_percentage || 0);
+          return { ...s, category };
+        });
       setStudents(studentList);
-    } catch { toast.error("Failed to load students"); }
-    finally { setLoading(false); }
-  };
+      setLoading(false);
+    });
 
-  const loadEvents = async () => { try { setEvents(await fetchEvents()); } catch { } };
-  const loadJobs = async () => { try { setJobs(await fetchOpportunities()); } catch { } };
-  const loadClubs = async () => {
-    try {
-      const c = await fetchClubs();
+    // 2. Events Snapshot
+    const unsubEvents = onSnapshot(query(collection(db, "events"), orderBy("createdAt", "desc")), (snap) => {
+      setEvents(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    // 3. Opportunities Snapshot
+    const unsubJobs = onSnapshot(query(collection(db, "opportunities"), orderBy("createdAt", "desc")), (snap) => {
+      setJobs(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    // 4. Clubs Initial Load (rarely changes frequently)
+    fetchClubs().then(c => {
       setClubs(c);
       if (c.length > 0 && !selectedClub) setSelectedClub(c[0].id);
-    } catch { }
-  };
-  const loadMembers = async (clubId: string) => {
-    try { setMembers(await fetchClubMembers(clubId)); } catch { setMembers([]); }
-  };
-  const loadAttendance = async () => { try { setAttendanceRecords(await fetchAttendance()); } catch { setAttendanceRecords([]); } };
+    });
 
-  useEffect(() => {
-    loadStudents();
-    loadEvents();
-    loadJobs();
-    loadClubs();
-    loadAttendance();
+    // 5. Attendance Snapshot
+    const unsubAtt = onSnapshot(query(collection(db, "attendance"), orderBy("markedAt", "desc")), (snap) => {
+      setAttendanceRecords(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    return () => {
+      unsubStudents();
+      unsubEvents();
+      unsubJobs();
+      unsubAtt();
+    };
   }, []);
 
   useEffect(() => {
-    if (selectedClub) loadMembers(selectedClub);
+    if (selectedClub) {
+      const unsubMembers = onSnapshot(collection(db, "clubs", selectedClub, "members"), (snap) => {
+        setMembers(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      });
+      return () => unsubMembers();
+    }
   }, [selectedClub]);
 
   const filteredStudents = students.filter(s => {

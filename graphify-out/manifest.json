@@ -1,0 +1,226 @@
+{
+  "D:\\TCET-CONNECT CLEAN\\server.ts": {
+    "mtime": 1778310961.3987734,
+    "hash": "634416cc1729abc3cec347805c42692a"
+  },
+  "D:\\TCET-CONNECT CLEAN\\vite.config.ts": {
+    "mtime": 1776495044.3781097,
+    "hash": "c8bf0d264ba3e3ecf58d1a13c828a8a6"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\App.tsx": {
+    "mtime": 1778151963.074188,
+    "hash": "53969c548ff5a6077703b41ef81fd7ca"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\main.tsx": {
+    "mtime": 1776495044.4767745,
+    "hash": "2203251a91f5a80c260e26b68198286d"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\BackgroundEffects.tsx": {
+    "mtime": 1778145550.105235,
+    "hash": "8df773308b0e09e94dc7abf2f11cd79c"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\CompanyLogo.tsx": {
+    "mtime": 1776495044.4824855,
+    "hash": "d582dc925de64c1fbc78b04be261fc6a"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\ThemeProvider.tsx": {
+    "mtime": 1776495044.4860768,
+    "hash": "f34dae13b339a5513307b1b0b8cc2046"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\community\\PostModal.tsx": {
+    "mtime": 1778153065.4276955,
+    "hash": "64da92d9495108cd2e63646378f34530"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\ActiveClubs.tsx": {
+    "mtime": 1778153052.179987,
+    "hash": "01a480c755368ccbcec7b3017af50ea8"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\AICareerAssistant.tsx": {
+    "mtime": 1776495044.498884,
+    "hash": "d8aeee883f91b2e2719a5e5a65729a31"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\CommunityFeedPreview.tsx": {
+    "mtime": 1778153034.6014128,
+    "hash": "a5d909759e8f663c1f5415553f598d49"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\FeaturedOpportunities.tsx": {
+    "mtime": 1776495044.5091307,
+    "hash": "5b5b7d64c2e14ebf9505cd5c27c2138a"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\HeroSection.tsx": {
+    "mtime": 1776495044.5126655,
+    "hash": "2b63ab8c03b0ebcbbda18ddd52007018"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\LeaderboardWidget.tsx": {
+    "mtime": 1776495044.5157917,
+    "hash": "1cb0029ca6e7f2c2adbb6145304833e5"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\ProfileSnapshot.tsx": {
+    "mtime": 1776495044.5188198,
+    "hash": "b6b5b3ff97ed379720d967bc134af651"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\QuickLinks.tsx": {
+    "mtime": 1776495044.5223505,
+    "hash": "d9e65fb0a92228e8027d298f6d5e80c6"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\home\\UpcomingEvents.tsx": {
+    "mtime": 1778153021.290037,
+    "hash": "22f3e6efb9f3a7a69292f884a65f6df1"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\layout\\BottomNav.tsx": {
+    "mtime": 1778153001.6233373,
+    "hash": "e39147848d4b5a3f02179fa27f4d4312"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\layout\\Header.tsx": {
+    "mtime": 1778152978.7507703,
+    "hash": "2ccb9b29ecea477abaed83a90146e33d"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\layout\\Layout.tsx": {
+    "mtime": 1778152963.7244933,
+    "hash": "eaeb1b2a4cae4f4e6264807083ec51da"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\components\\layout\\Sidebar.tsx": {
+    "mtime": 1778152944.601706,
+    "hash": "223dbf9f4822fc6b915e8879c811bad4"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\lib\\api.ts": {
+    "mtime": 1778152014.8025105,
+    "hash": "e50f953878d5d987875f013d1b4fae4f"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\lib\\db.ts": {
+    "mtime": 1776495044.5568998,
+    "hash": "7d3a125ca15201875e5c2fc75912d164"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\lib\\firebase.ts": {
+    "mtime": 1778310889.797048,
+    "hash": "ae2daa855e49a15a763f1cca48d08412"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\lib\\placement.ts": {
+    "mtime": 1778311218.88267,
+    "hash": "ebecddae201a484f0779b0bbceda55cd"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\lib\\utils.ts": {
+    "mtime": 1776495044.5691307,
+    "hash": "d9837f38cc05303254571985e3164050"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Activity.tsx": {
+    "mtime": 1776495044.5755098,
+    "hash": "eb23425de13e0c2f9fe4f556516fcb45"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\AdminDashboard.tsx": {
+    "mtime": 1778311312.521969,
+    "hash": "104f6ba98b6541d1c55a6662309d8b2d"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\CareerGuidance.tsx": {
+    "mtime": 1776495044.582322,
+    "hash": "995391c0da88a58162e6dd077db129d2"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Clubs.tsx": {
+    "mtime": 1778152284.7208867,
+    "hash": "e2d048118cd137fdfd7722bf66c46a39"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Community.tsx": {
+    "mtime": 1778152344.7600667,
+    "hash": "3d5f86c503bc3409677989e679417447"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Competitions.tsx": {
+    "mtime": 1778152643.6864345,
+    "hash": "ba93154f91e2c9d61ff6c22478b2beb1"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Events.tsx": {
+    "mtime": 1776495044.596642,
+    "hash": "d32cf15407090e8a66fec845b7627b9c"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Home.tsx": {
+    "mtime": 1776495044.600503,
+    "hash": "16b328771a60e591d2aa62f6ba9486ec"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Landing.tsx": {
+    "mtime": 1778152091.5392025,
+    "hash": "8d29928320db7d9af281109a788b100f"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Leaderboard.tsx": {
+    "mtime": 1778152566.6611211,
+    "hash": "1c81ac1c3d9c60b25795a9773587c715"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\MockInterviews.tsx": {
+    "mtime": 1778152697.5793982,
+    "hash": "c8b9e46849a602983367cf2aed2e366a"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\MockTests.tsx": {
+    "mtime": 1778152042.7007792,
+    "hash": "3b83d532422a5e5644e3b2b8650ba444"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Opportunities.tsx": {
+    "mtime": 1778152497.5498173,
+    "hash": "a896edda91c7c8bc5a5bd591578ee92e"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\Profile.tsx": {
+    "mtime": 1776495044.6190987,
+    "hash": "7c11605c146a894755493035474af1d7"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\pages\\TeacherDashboard.tsx": {
+    "mtime": 1778311208.394874,
+    "hash": "62a979c276d3fe4988887e2ef2ab8001"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\routes\\careerRoutes.ts": {
+    "mtime": 1776495044.6299646,
+    "hash": "e7d10acbb2efc5920a51ba5d8b90dece"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\routes\\interviewRoutes.ts": {
+    "mtime": 1776495044.6339526,
+    "hash": "4dbe3f4d7a96d10dfe3dd4a3eff863ca"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\routes\\jobRoutes.ts": {
+    "mtime": 1776495044.6372094,
+    "hash": "dbaf20024415107de816430697d6da1c"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\routes\\testRoutes.ts": {
+    "mtime": 1776495044.640942,
+    "hash": "a0817ad9aaeaaef6d51216711258d28f"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\services\\cacheService.ts": {
+    "mtime": 1776495044.6465168,
+    "hash": "bb1d3cf0bedc0df7a9aaddf6c9c9b618"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\services\\careerService.ts": {
+    "mtime": 1776495044.6500254,
+    "hash": "ba5ec193223f113488e6f2df51d00dd8"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\services\\dataCleaner.ts": {
+    "mtime": 1776495044.6533866,
+    "hash": "30cac091d4b01a5a1a6e708ae69e4d43"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\services\\firebaseService.ts": {
+    "mtime": 1776495044.657195,
+    "hash": "d6d3fcb54c237a7c7f33b312b93a4142"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\services\\interviewService.ts": {
+    "mtime": 1776495044.6617486,
+    "hash": "8cc4280d171986115d839be0f12c541f"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\services\\jobService.ts": {
+    "mtime": 1778310669.8163726,
+    "hash": "3fbcbc347a1477814b674cec568bc978"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\services\\testService.ts": {
+    "mtime": 1776495044.668999,
+    "hash": "c8e18720a74d9bf4ccf1b8950a7ca552"
+  },
+  "D:\\TCET-CONNECT CLEAN\\src\\utils\\gemini.ts": {
+    "mtime": 1776495044.675369,
+    "hash": "370b586e548b37f29419088726ac6e3f"
+  },
+  "D:\\TCET-CONNECT CLEAN\\index.html": {
+    "mtime": 1778152737.7399483,
+    "hash": "56b79bf0e5e2f8cff654284dc98331d4"
+  },
+  "D:\\TCET-CONNECT CLEAN\\progress.md": {
+    "mtime": 1776495044.3657281,
+    "hash": "fd97ae459663c53827beebf2d896f950"
+  },
+  "D:\\TCET-CONNECT CLEAN\\README.md": {
+    "mtime": 1778149902.5117247,
+    "hash": "a14d0bd1913a60c840cc952b1cff9b98"
+  }
+}

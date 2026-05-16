@@ -7,7 +7,9 @@ import {
   signInWithRedirect,
   getRedirectResult,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  setPersistence,
+  browserLocalPersistence
 } from 'firebase/auth';
 
 import {
@@ -30,6 +32,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+// Explicitly set persistence
+setPersistence(auth, browserLocalPersistence).catch(console.error);
+
 export const db = getFirestore(app);
 
 export const googleProvider = new GoogleAuthProvider();
@@ -58,9 +63,9 @@ async function ensureUserDocument(user: any) {
 
     await setDoc(userRef, {
       uid: user.uid,
-      name: user.displayName,
+      name: user.displayName || email.split('@')[0],
       email: user.email,
-      photoURL: user.photoURL,
+      photoURL: user.photoURL || null,
       role,
       created_at: serverTimestamp()
     });
@@ -106,11 +111,13 @@ export const signInWithEmail = async (
   email: string,
   password: string
 ) => {
-  return await signInWithEmailAndPassword(
+  const result = await signInWithEmailAndPassword(
     auth,
     email,
     password
   );
+  await ensureUserDocument(result.user);
+  return result;
 };
 
 export const logout = async () => {

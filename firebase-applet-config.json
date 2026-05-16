@@ -1,9 +1,8 @@
 {
-  apiKey: "AIzaSyAfHpvUFKxKDEseb6VgzceCIzt2Qt6ZVck",
-  authDomain: "gen-lang-client-0504290983.firebaseapp.com",
-  projectId: "gen-lang-client-0504290983",
-  storageBucket: "gen-lang-client-0504290983.firebasestorage.app",
-  messagingSenderId: "1009315031326",
-  appId: "1:1009315031326:web:f8f9a2b1e682d50911410f"
-  "measurementId": ""
+  "apiKey": "AIzaSyAdyvxqJVBYPhrLptDyB4YG4L7SsMS6pFw",
+  "authDomain": "tcet-connect-a8588.firebaseapp.com",
+  "projectId": "tcet-connect-a8588",
+  "storageBucket": "tcet-connect-a8588.firebasestorage.app",
+  "messagingSenderId": "460159414446",
+  "appId": "1:460159414446:web:9a1becd79f7849bb69bd3f"
 }

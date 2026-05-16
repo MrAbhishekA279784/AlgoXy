@@ -36,14 +36,22 @@ export default function Home() {
   useEffect(() => {
     const fetchRole = async () => {
       if (auth.currentUser) {
+        // Timeout for Firestore fetch
+        const timeout = setTimeout(() => {
+          setRole("student");
+          setLoading(false);
+        }, 3000);
+
         try {
           const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
+          clearTimeout(timeout);
           if (userDoc.exists()) {
             setRole(userDoc.data().role || "student");
           } else {
             setRole("student");
           }
         } catch (error) {
+          clearTimeout(timeout);
           console.error("Error fetching role:", error);
           setRole("student");
         }
