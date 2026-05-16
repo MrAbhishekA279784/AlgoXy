@@ -158,14 +158,6 @@ src/
 
 ---
 
-## 👨‍💻 Author
-
-**Abhishek Gupta**
-B.Tech CSE (AI/ML) — Thakur College of Engineering and Technology
-[adityagupta7148@gmail.com](mailto:adityagupta7148@gmail.com)
-
----
-
 ## 📄 License
 
 This project is for academic and demonstration purposes.
