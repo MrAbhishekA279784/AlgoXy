@@ -1,19 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { fetchLeaderboard } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { getCategoryBadgeStyles } from "@/lib/placement";
 import { Link } from "react-router-dom";
 
+// Simple in-memory cache to prevent repeated Firestore reads
+let leaderboardCache: { data: any[]; timestamp: number } | null = null;
+const CACHE_DURATION = 30000; // 30 seconds cache
+
 export default function LeaderboardWidget() {
   const [leaders, setLeaders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
+    mountedRef.current = true;
+    
+    // Check cache first
+    if (leaderboardCache && Date.now() - leaderboardCache.timestamp < CACHE_DURATION) {
+      setLeaders(leaderboardCache.data.slice(0, 5));
+      setLoading(false);
+      return;
+    }
+
     fetchLeaderboard()
-      .then(data => setLeaders(data.slice(0, 5)))
-      .catch(err => console.error("Error fetching widget leaderboard:", err))
-      .finally(() => setLoading(false));
+      .then(data => {
+        if (mountedRef.current) {
+          const top5 = data.slice(0, 5);
+          setLeaders(top5);
+          // Update cache
+          leaderboardCache = { data, timestamp: Date.now() };
+        }
+      })
+      .catch(err => {
+        if (mountedRef.current) {
+          console.error("Error fetching widget leaderboard:", err);
+        }
+      })
+      .finally(() => {
+        if (mountedRef.current) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      mountedRef.current = false;
+    };
   }, []);
 
   if (loading) {

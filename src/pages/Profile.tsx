@@ -149,9 +149,9 @@ export default function Profile() {
           {userData.cgpa && userData.attendance_percentage && (
             <div className={cn(
               "px-3 py-1 rounded-full text-xs font-bold border mb-2",
-              getCategoryBadgeStyles(calculatePlacementCategory(userData))
+              getCategoryBadgeStyles(calculatePlacementCategory(userData.cgpa, userData.attendance_percentage))
             )}>
-              {calculatePlacementCategory(userData)} Eligible
+              {calculatePlacementCategory(userData.cgpa, userData.attendance_percentage)} Eligible
             </div>
           )}
 

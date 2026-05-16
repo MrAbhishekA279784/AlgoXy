@@ -43,8 +43,10 @@ export default function BackgroundEffects() {
         className="absolute top-[30%] left-[40%] w-[30%] h-[30%] rounded-full bg-cyan-400/10 blur-[100px]"
       />
 
-      {/* Grid Pattern with Glow */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 contrast-150 brightness-150 mix-blend-overlay"></div>
+      {/* Grid Pattern with Glow - CSS-only noise for offline safety */}
+      <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
+      }}></div>
       
       {/* Light Leaks */}
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#1b2a6b]/30 to-transparent pointer-events-none"></div>

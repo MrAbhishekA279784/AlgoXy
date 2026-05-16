@@ -13,11 +13,13 @@ import {
 } from 'firebase/auth';
 
 import {
-  getFirestore,
+  initializeFirestore,
   doc,
   getDoc,
   setDoc,
-  serverTimestamp
+  serverTimestamp,
+  enableIndexedDbPersistence,
+  CACHE_SIZE_UNLIMITED
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -26,16 +28,37 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
-// Explicitly set persistence
+// Explicitly set auth persistence
 setPersistence(auth, browserLocalPersistence).catch(console.error);
 
-export const db = getFirestore(app);
+// Initialize Firestore with offline persistence
+export const db = initializeFirestore(app, {
+  cacheSizeBytes: CACHE_SIZE_UNLIMITED
+});
+
+// Enable offline persistence with graceful fallback
+enableIndexedDbPersistence(db)
+  .then(() => {
+    console.log('Firestore offline persistence enabled');
+  })
+  .catch((err) => {
+    if (err.code === 'failed-precondition') {
+      // Persistence already enabled in another tab
+      console.warn('Firestore persistence already enabled in another tab');
+    } else if (err.code === 'unimplemented') {
+      // Browser doesn't support persistence
+      console.warn('Firestore persistence not supported in this browser');
+    } else {
+      console.error('Firestore persistence error:', err);
+    }
+  });
 
 export const googleProvider = new GoogleAuthProvider();
 

@@ -7,7 +7,7 @@ import { getCategoryBadgeStyles, calculateCategory } from "@/lib/placement";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { db } from "@/lib/firebase";
-import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, query, where, orderBy, getDocs } from "firebase/firestore";
 import {
   createEvent, deleteEvent,
   createJob, deleteJob,
@@ -38,42 +38,74 @@ export default function TeacherDashboard() {
   const [jobForm, setJobForm] = useState({ company: "", role: "", location: "", type: "Full-time", salary: "", apply_url: "" });
   const [attForm, setAttForm] = useState({ studentName: "", studentId: "", date: "", status: "present" });
 
-  useEffect(() => {
+  const loadStudents = async () => {
     setLoading(true);
-    
-    // 1. Students Snapshot
-    const unsubStudents = onSnapshot(collection(db, "users"), (snap) => {
+    try {
+      const snap = await getDocs(query(collection(db, "users"), where("role", "==", "student")));
       const studentList = snap.docs
         .map(doc => ({ id: doc.id, ...doc.data() }))
-        .filter((u: any) => u.role === "student" || !u.role)
         .map((s: any) => {
           const category = calculateCategory(s.cgpa || 0, s.attendance_percentage || 0);
           return { ...s, category };
         });
       setStudents(studentList);
-      setLoading(false);
-    });
+    } catch (error) {
+      console.error("Error loading students:", error);
+    }
+    setLoading(false);
+  };
 
-    // 2. Events Snapshot
-    const unsubEvents = onSnapshot(query(collection(db, "events"), orderBy("createdAt", "desc")), (snap) => {
-      setEvents(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+  useEffect(() => {
+    setLoading(true);
+    
+    // 1. Students Snapshot - FILTER AT FIRESTORE LEVEL to reduce reads
+    const unsubStudents = onSnapshot(
+      query(collection(db, "users"), where("role", "==", "student")),
+      (snap) => {
+        const studentList = snap.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .map((s: any) => {
+            const category = calculateCategory(s.cgpa || 0, s.attendance_percentage || 0);
+            return { ...s, category };
+          });
+        setStudents(studentList);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Student listener error:", error);
+        setLoading(false);
+      }
+    );
 
-    // 3. Opportunities Snapshot
-    const unsubJobs = onSnapshot(query(collection(db, "opportunities"), orderBy("createdAt", "desc")), (snap) => {
-      setJobs(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+    // 2. Events Snapshot - with limit to prevent overfetching
+    const unsubEvents = onSnapshot(
+      query(collection(db, "events"), orderBy("createdAt", "desc"), where("createdAt", "!=", null)),
+      (snap) => {
+        setEvents(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      }
+    );
+
+    // 3. Jobs Snapshot - use correct collection name "jobs"
+    const unsubJobs = onSnapshot(
+      query(collection(db, "jobs"), orderBy("postedDate", "desc")),
+      (snap) => {
+        setJobs(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      }
+    );
 
     // 4. Clubs Initial Load (rarely changes frequently)
     fetchClubs().then(c => {
       setClubs(c);
       if (c.length > 0 && !selectedClub) setSelectedClub(c[0].id);
-    });
+    }).catch(console.error);
 
-    // 5. Attendance Snapshot
-    const unsubAtt = onSnapshot(query(collection(db, "attendance"), orderBy("markedAt", "desc")), (snap) => {
-      setAttendanceRecords(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+    // 5. Attendance Snapshot - with limit
+    const unsubAtt = onSnapshot(
+      query(collection(db, "attendance"), orderBy("markedAt", "desc")),
+      (snap) => {
+        setAttendanceRecords(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      }
+    );
 
     return () => {
       unsubStudents();

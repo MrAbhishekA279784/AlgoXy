@@ -41,6 +41,25 @@ export default function AdminDashboard() {
   const [clubForm, setClubForm] = useState({ name: "", description: "", icon: "🏛️" });
   const [jobForm, setJobForm] = useState({ company: "", role: "", location: "", type: "Full-time", salary: "", apply_url: "" });
 
+  const loadAll = async () => {
+    setLoading(true);
+    try {
+      const [eventsData, clubsData, jobsData, postsData] = await Promise.all([
+        getDocs(collection(db, "events")),
+        getDocs(collection(db, "clubs")),
+        getDocs(collection(db, "jobs")),
+        getDocs(collection(db, "community_posts"))
+      ]);
+      setEvents(eventsData.docs.map(d => ({ id: d.id, ...d.data() })));
+      setClubs(clubsData.docs.map(d => ({ id: d.id, ...d.data() })));
+      setJobs(jobsData.docs.map(d => ({ id: d.id, ...d.data() })));
+      setPosts(postsData.docs.map(d => ({ id: d.id, ...d.data() })));
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     loadAll();
     
